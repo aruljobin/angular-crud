@@ -7,8 +7,8 @@
     <span class="rightSpace">{{ book.authorId?.firstname }} {{ book.authorId?.lastname }}</span>
     <span class="rightSpace">{{ book.bookname }}</span>
     <span class="rightSpace">{{ book.bookprice }}</span>
-    <span class="rightSpace">{{ book.createdate }}</span>
-    <span>{{ book.publishdate }}</span>
+    <span class="rightSpace">{{ book.createdate  | date:'dd/MM/yyyy' }}</span>
+    <span>{{ book.publishdate  | date:'dd/MM/yyyy' }}</span>
 
     <ng-container>
           <button mat-icon-button color="accent" (click)="startEdit(i, book.id, book.authorId.id, book.bookname, book.bookprice)">
