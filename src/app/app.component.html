@@ -1,0 +1,13 @@
+<mat-toolbar color="primary">
+  <span>Angular CRUD </span>
+</mat-toolbar>
+
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <button mat-button routerLink="/authors">Authors</button> <br>
+    <button mat-button routerLink="/books">Books</button>
+  </mat-drawer>
+
+<router-outlet ></router-outlet>
+
+</mat-drawer-container>

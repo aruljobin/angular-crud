@@ -1,0 +1,24 @@
+<p>Author list</p>
+
+<button class="leftSpace" mat-raised-button (click)="addAuthor()" color="primary">Add Author</button>
+
+<div *ngFor="let author of authorList; let i = index">
+  <div id="list" >
+    <div (click)="clickAuthor(author.id)">
+      <span class="rightSpace">{{ author.id }}</span>
+      <span class="rightSpace">{{ author.firstname }} {{ author.lastname }}</span>
+      <span class="rightSpace"> {{ author.booksCount }} </span>
+    </div>
+  
+      <ng-container>
+            <button mat-icon-button color="accent" (click)="startEdit(i, author.id, author.firstname, author.lastname)">
+              <mat-icon aria-label="Edit">edit</mat-icon>
+            </button>
+    
+            <button mat-icon-button color="accent" (click)="deleteItem(i, author.id, author.firstname, author.lastname)">
+              <mat-icon aria-label="Delete">delete</mat-icon>
+            </button>
+        </ng-container>
+  </div>
+</div>
+

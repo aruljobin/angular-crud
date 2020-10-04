@@ -1,0 +1,24 @@
+<p>Book list</p>
+
+<button class="leftSpace" mat-raised-button (click)="addBook()" color="primary">Add Book</button>
+
+<div *ngFor="let book of bookList; let i = index">
+    <span class="rightSpace">{{ book.id }}</span>
+    <span class="rightSpace">{{ book.authorId?.firstname }} {{ book.authorId?.lastname }}</span>
+    <span class="rightSpace">{{ book.bookname }}</span>
+    <span class="rightSpace">{{ book.bookprice }}</span>
+    <span class="rightSpace">{{ book.createdate }}</span>
+    <span>{{ book.publishdate }}</span>
+
+    <ng-container>
+          <button mat-icon-button color="accent" (click)="startEdit(i, book.id, book.authorId.id, book.bookname, book.bookprice)">
+            <mat-icon aria-label="Edit">edit</mat-icon>
+          </button>
+  
+          <button mat-icon-button color="accent" (click)="deleteItem(i, book.id, book.bookname, book.bookprice, book.authorId.firstname+' '+book.authorId.lastname)">
+            <mat-icon aria-label="Delete">delete</mat-icon>
+          </button>
+      </ng-container>
+
+</div>
+

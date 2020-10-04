@@ -1,0 +1,27 @@
+<div class="container">
+  <h3 mat-dialog-title>Are you sure?</h3>
+  <div *ngIf="data.isAuthor" mat-dialog-content>
+    Id: {{data.id}}
+    <p></p>
+    FirstName: {{data.firstname}}
+    <p></p>
+    LastName: {{data.lastname}}
+    <p></p>
+  </div>
+
+  <div *ngIf="!data.isAuthor" mat-dialog-content>
+    Id: {{data.id}}
+    <p></p>
+    Author Name: {{data.authorname}}
+    <p></p>
+    Book Name: {{data.bookname}}
+    <p></p>
+    Book Price: {{data.bookprice}}
+    <p></p>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="1" (click)="confirmDelete()">Delete</button>
+    <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+  </div>
+</div>

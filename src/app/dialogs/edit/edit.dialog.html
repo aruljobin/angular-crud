@@ -1,0 +1,61 @@
+<div class="container">
+  <h3 mat-dialog-title>Author id: {{data.id}}</h3>
+
+  <form *ngIf="data.isAuthor" class="mat-dialog-content" (ngSubmit)="UpdateFormSubmit()" [formGroup]="addForm">
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput #input value="data.firstname" placeholder="First Name" formControlName="firstname" required >
+        <mat-error class="error-message" *ngIf="validationError('firstname', addForm)">
+          {{ validationError('firstname', addForm) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput #input value="{{data.lastname}}" placeholder="Last Name" formControlName="lastname" required >
+        <mat-error class="error-message" *ngIf="validationError('lastname', addForm)">
+          {{ validationError('lastname', addForm) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-button type="submit" [disabled]="!addForm.valid" [mat-dialog-close]="1">Save</button>
+      <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+    </div>
+  </form>
+
+  <form *ngIf="!data.isAuthor" class="mat-dialog-content" (ngSubmit)="updateBookSubmit()" [formGroup]="addBookForm">
+
+    <mat-select formControlName="authorselect" placeholder="Select a Author">
+      <mat-option *ngFor="let author of data.authorList" [displayWith]="author.firstname+author.lastname" [value]="author">
+        {{author.firstname}} {{author.lastname}}
+      </mat-option>
+    </mat-select>
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput #input class="form-control" placeholder="Book Name" formControlName="bookname" required >
+        <mat-error class="error-message" *ngIf="validationError('bookname', addBookForm)">
+          {{ validationError('bookname', addBookForm) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput #input class="form-control" placeholder="Book Price" formControlName="bookprice" required >
+        <mat-error class="error-message" *ngIf="validationError('bookprice', addBookForm)">
+          {{ validationError('bookprice', addBookForm) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-button type="submit" [disabled]="!addBookForm.valid" [mat-dialog-close]="1">Save</button>
+      <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+    </div>
+  </form>
+</div>
