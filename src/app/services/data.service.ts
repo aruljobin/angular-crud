@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {Author, Book} from '../models/issue';
+import {Author, Book} from '../models/authorbook';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 
 @Injectable()
@@ -27,15 +27,15 @@ export class DataService {
   }
 
   addAuthor (author: Author) {
-    return this.httpClient.post<Author[]>(this.API_URL+"add", author);
+    return this.httpClient.post<Author>(this.API_URL+"add", author);
   }
 
   updateAuthor (authorId: number, author: Author) {
-    return this.httpClient.put<Author[]>(this.API_URL+authorId, author);
+    return this.httpClient.put<Author>(this.API_URL+authorId, author);
   }
 
   deleteAuthor (id: number) {
-    return this.httpClient.delete<[]>(this.API_URL+id);
+    return this.httpClient.delete<number>(this.API_URL+id);
   }
 
   getAllBooks() {

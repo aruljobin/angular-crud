@@ -2,8 +2,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Component, Inject} from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AddData, Book} from '../../models/issue';
+import {AddData, Book} from '../../models/authorbook';
 import { DatePipe } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../reducers';
+import { AddAuthor } from '../../store/author.actions';
 
 @Component({
   selector: 'app-add.dialog',
@@ -27,18 +30,8 @@ export class AddDialogComponent {
   constructor(public dialogRef: MatDialogRef<AddDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: AddData,
               public dataService: DataService,
-              private datePipe: DatePipe) { }
-
-  // formControl = new FormControl('', [
-  //   Validators.required
-  //   // Validators.email,
-  // ]);
-
-  // getErrorMessage() {
-  //   return this.formControl.hasError('required') ? 'Required field' :
-  //     this.formControl.hasError('email') ? 'Not a valid email' :
-  //       '';
-  // }
+              private datePipe: DatePipe,
+              private store: Store<AppState>) { }
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -53,9 +46,10 @@ export class AddDialogComponent {
 
   public addAuthorSubmit() {
     if (this.addAuthorForm.valid) {
-      this.dataService.addAuthor(this.addAuthorForm.value).subscribe((res) => {
-        console.log("Add Author", res);
-      });
+      this.store.dispatch(new AddAuthor(this.addAuthorForm.value));
+      // this.dataService.addAuthor(this.addAuthorForm.value).subscribe((res) => {
+      //   console.log("Add Author", res);
+      // });
     }
     
   }

@@ -25,6 +25,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthorbooksComponent } from './authorbooks/authorbooks.component';
 import { MatSelectModule } from '@angular/material/select';
 import { DatePipe } from '@angular/common';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
+import { AuthorEffects } from './store/author.effects';
 
 
 @NgModule({
@@ -53,7 +59,10 @@ import { DatePipe } from '@angular/common';
     ReactiveFormsModule,
     AppRoutingModule,
     MatSidenavModule,
-    MatSelectModule
+    MatSelectModule,
+    StoreModule.forRoot(reducers, { metaReducers }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([AuthorEffects])
   ],
   entryComponents: [
     AddDialogComponent,

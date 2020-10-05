@@ -1,10 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { GetAuthor } from '../store/author.actions';
 import { AddDialogComponent } from '../dialogs/add/add.dialog.component';
 import { DeleteDialogComponent } from '../dialogs/delete/delete.dialog.component';
 import { EditDialogComponent } from '../dialogs/edit/edit.dialog.component';
+import { selectAuthors } from '../store/author.selectors';
+import { AppState } from '../reducers';
 import { DataService } from '../services/data.service';
 
 @Component({
@@ -15,59 +20,44 @@ import { DataService } from '../services/data.service';
 export class AuthorsComponent implements OnInit, OnDestroy {
 
   public authorList = [];
-  public subscribe: Subscription;
+  private unsubscribe$: Subject<void> = new Subject<void>();
 
   constructor(public dialog: MatDialog, public dataService: DataService,
-    public router: Router) { }
+    public router: Router, private store: Store<AppState>) { }
 
   ngOnInit(): void {
     this.getAllAuthors();
+    this.store.dispatch(new GetAuthor());
   }
 
   ngOnDestroy(): void {
-    this.subscribe.unsubscribe();
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   public addAuthor() {
-    const dialogRef = this.dialog.open(AddDialogComponent, {
+    this.dialog.open(AddDialogComponent, {
       data: {isAuthor: true }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 1) {
-        this.getAllAuthors();
-      }
     });
   }
 
   startEdit(i: number, id: number, firstname: string, lastname: string) {
-    const dialogRef = this.dialog.open(EditDialogComponent, {
+    this.dialog.open(EditDialogComponent, {
       data: {isAuthor: true, id: id, firstname: firstname, lastname: lastname}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 1) {
-        this.getAllAuthors();
-      }
     });
   }
 
   deleteItem(i: number, id: number, firstname: string, lastname: string) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+    this.dialog.open(DeleteDialogComponent, {
       data: {isAuthor: true, id: id, firstname: firstname, lastname: lastname}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 1) {
-        this.getAllAuthors();
-      }
     });
   }
 
   public getAllAuthors() {
-    this.subscribe = this.dataService.getAllAuthors().subscribe((res) => {
-      this.authorList = res;
-    });
+    this.store.pipe(select(selectAuthors), takeUntil(this.unsubscribe$)).subscribe(authors => {
+      console.log('authors', authors);
+      this.authorList = authors;
+    })
   }
 
   public clickAuthor(authorId: number) {

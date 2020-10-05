@@ -1,6 +1,9 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Component, Inject} from '@angular/core';
 import {DataService} from '../../services/data.service';
+import { AppState } from '../../reducers';
+import { Store } from '@ngrx/store';
+import { DeleteAuthor } from '../../store/author.actions';
 
 
 @Component({
@@ -10,7 +13,7 @@ import {DataService} from '../../services/data.service';
 })
 export class DeleteDialogComponent {
 
-  constructor(public dialogRef: MatDialogRef<DeleteDialogComponent>,
+  constructor(public dialogRef: MatDialogRef<DeleteDialogComponent>,private store: Store<AppState>,
               @Inject(MAT_DIALOG_DATA) public data: any, public dataService: DataService) { }
 
   onNoClick(): void {
@@ -19,9 +22,10 @@ export class DeleteDialogComponent {
 
   confirmDelete(): void {
     if (this.data.isAuthor) {
-      this.dataService.deleteAuthor(this.data.id).subscribe(res => {
-        console.log("Deleted auther", res);
-      });
+      this.store.dispatch(new DeleteAuthor(this.data.id));
+      // this.dataService.deleteAuthor(this.data.id).subscribe(res => {
+      //   console.log("Deleted auther", res);
+      // });
     } else {
       this.dataService.deleteBook(this.data.id).subscribe(res => {
         console.log("Deleted book", res);

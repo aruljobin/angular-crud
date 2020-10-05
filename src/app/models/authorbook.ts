@@ -8,6 +8,7 @@ export class Author {
   id?: number;
   firstname: string;
   lastname: string;
+  booksCount: number = 0;
 }
 
 export class Book {
