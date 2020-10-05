@@ -2,8 +2,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Component, Inject} from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import { Book } from '../../models/issue';
+import { Book } from '../../models/authorbook';
 import { DatePipe } from '@angular/common';
+import { AppState } from '../../reducers';
+import { Store } from '@ngrx/store';
+import { UpdateAuthor } from  '../../store/author.actions';
 
 @Component({
   selector: 'app-baza.dialog',
@@ -24,7 +27,8 @@ export class EditDialogComponent {
   });
   
   constructor(public dialogRef: MatDialogRef<EditDialogComponent>,private datePipe: DatePipe,
-              @Inject(MAT_DIALOG_DATA) public data: any, public dataService: DataService) 
+              @Inject(MAT_DIALOG_DATA) public data: any, public dataService: DataService,
+              private store: Store<AppState>) 
               {
                 if (data.isAuthor) {
                   this.addForm.patchValue(data);
@@ -39,9 +43,7 @@ export class EditDialogComponent {
   }
 
   UpdateFormSubmit(): void {
-    this.dataService.updateAuthor(this.data.id, this.addForm.value).subscribe(res => {
-      console.log("Updated Author", res);
-    });
+    this.store.dispatch(new UpdateAuthor(this.data.id,this.addForm.value));
   }
 
   updateBookSubmit(): void {

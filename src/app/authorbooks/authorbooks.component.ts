@@ -7,7 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute } from '@angular/router';
 import { fromEvent, BehaviorSubject, Observable, merge, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Book } from '../models/issue';
+import { Book } from '../models/authorbook';
 import { DataService } from '../services/data.service';
 
 @Component({
@@ -91,8 +91,8 @@ export class ExampleDataSource extends DataSource<Book> {
 
     return merge(...displayDataChanges).pipe(map( () => {
         // Filter data
-        this.filteredData = this._exampleDatabase.data.slice().filter((issue: Book) => {
-          const searchStr = (issue.bookname + issue.createDate).toLowerCase();
+        this.filteredData = this._exampleDatabase.data.slice().filter((book: Book) => {
+          const searchStr = (book.bookname + book.createDate).toLowerCase();
           return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
         });
 
