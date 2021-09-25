@@ -1,1 +1,7 @@
-
+- task: NodeAndNpmTool@1
+  inputs:
+    versionSpec: '10.x'
+- task: AngularCLI@1
+  inputs:
+    command: 'build'
+    DisableAnalytics: false
