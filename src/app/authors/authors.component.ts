@@ -20,7 +20,7 @@ import { DataService } from '../services/data.service';
 export class AuthorsComponent implements OnInit, OnDestroy {
 
   public authorList = [];
-  private unsubscribe$: Subject<void> = new Subject<void>();
+  public unsubscribe$: Subject<void> = new Subject<void>();
 
   constructor(public dialog: MatDialog, public dataService: DataService,
     public router: Router, private store: Store<AppState>) { }
