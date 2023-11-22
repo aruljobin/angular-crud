@@ -1,0 +1,28 @@
+name: Angular-CRUD DangerJS review
+
+on:
+  push:
+    branches:
+      - master
+    pull_request:
+      branches:
+        - master
+
+jobs:
+  danger-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run DangerJS
+        run: npx danger --fail-on-errors
+
+      - name: Upload DangerJS results
+        uses: actions/upload-artifact@v3
+        with:
+          name: danger-results
+          path: danger.json
